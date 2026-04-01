@@ -28,7 +28,7 @@
     <!-- DEPENDENCIES -->
     <dependencies>
 
-        <!-- SPRING WEB (IMPORTANT FIX) -->
+        <!-- SPRING WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -53,14 +53,20 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- MQTT (VERY IMPORTANT) -->
+        <!-- 🔐 SPRING SECURITY (IMPORTANT) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- MQTT -->
         <dependency>
             <groupId>org.eclipse.paho</groupId>
             <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
             <version>1.2.5</version>
         </dependency>
 
-        <!-- JACKSON (JSON parsing - usually auto included but safe to add) -->
+        <!-- JACKSON (JSON parsing) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
