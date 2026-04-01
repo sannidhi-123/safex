@@ -16,20 +16,22 @@ public class SensorDataService {
         this.repository = repository;
     }
 
+    // ================= 🔥 SAVE DATA (CORE LOGIC) =================
+
     public SensorData saveData(SensorData data) {
 
-        // ✅ VALIDATION
+        // ✅ Validation
         if (data.getGasLevel() < 0 || data.getHeartRate() < 0) {
-            System.out.println("❌ Invalid sensor data");
+            System.out.println("Invalid sensor data");
             return null;
         }
 
-        // ✅ TIMESTAMP
+        // ✅ Timestamp
         if (data.getTimestamp() == null) {
             data.setTimestamp(LocalDateTime.now());
         }
 
-        // ✅ STATUS
+        // ✅ Status (SAFE / WARNING / DANGER)
         if (data.getGasLevel() < 100) {
             data.setStatus("SAFE");
         } else if (data.getGasLevel() < 300) {
@@ -47,7 +49,7 @@ public class SensorDataService {
             data.setAqiStatus("HAZARDOUS");
         }
 
-        // ✅ ADVANCED RISK
+        // ✅ Risk Prediction
         if (data.getGasLevel() > 300 && data.getHeartRate() > 120) {
             data.setRiskLevel("CRITICAL");
         } else if (data.getGasLevel() > 200) {
@@ -58,26 +60,24 @@ public class SensorDataService {
             data.setRiskLevel("LOW");
         }
 
-        // ✅ HAZARD ZONE (GAS)
-        if (data.getGasLevel() > 300) {
+        // ✅ Hazard Zone (Gas + Geo-fencing)
+        if (data.getGasLevel() > 300 ||
+            (data.getLatitude() > 12.9 && data.getLongitude() > 77.6)) {
             data.setHazardZone(true);
+        } else {
+            data.setHazardZone(false);
         }
 
-        // ✅ LOCATION-BASED HAZARD (EXAMPLE ZONE)
-        if (data.getLatitude() > 12.9 && data.getLongitude() > 77.5) {
-            data.setHazardZone(true);
-        }
-
-        // ✅ ALERT LEVEL
+        // ✅ Alert Level
         if (data.isSos()) {
             data.setAlertLevel("CRITICAL");
         } else if (data.getGasLevel() > 300) {
             data.setAlertLevel("HIGH");
         } else {
-            data.setAlertLevel("NORMAL");
+            data.setAlertLevel("LOW");
         }
 
-        // ✅ LOGS
+        // ✅ Debug Logs
         System.out.println("Worker: " + data.getWorkerId());
         System.out.println("Gas: " + data.getGasLevel());
         System.out.println("Risk: " + data.getRiskLevel());
@@ -85,22 +85,46 @@ public class SensorDataService {
         return repository.save(data);
     }
 
-    public List<SensorData> getAllData() {
-        return repository.findAll();
-    }
+    // ================= BASIC DATA =================
 
     public SensorData getLatest() {
         List<SensorData> list = repository.findAll();
         return list.isEmpty() ? null : list.get(list.size() - 1);
     }
 
-    // 🔥 HISTORY
+    public List<SensorData> getAllData() {
+        return repository.findAll();
+    }
+
     public List<SensorData> getHistory(String workerId) {
         return repository.findTop10ByWorkerIdOrderByTimestampDesc(workerId);
     }
 
-    // 🔥 FILTER BY USER TYPE
     public List<SensorData> getByUserType(String type) {
         return repository.findByUserType(type);
+    }
+
+    // ================= 🔥 ANALYTICS =================
+
+    public double getAverageGas() {
+        return repository.findAll()
+                .stream()
+                .mapToDouble(SensorData::getGasLevel)
+                .average()
+                .orElse(0);
+    }
+
+    public double getAverageHeartRate() {
+        return repository.findAll()
+                .stream()
+                .mapToInt(SensorData::getHeartRate)
+                .average()
+                .orElse(0);
+    }
+
+    // ================= 🔥 ALERT HISTORY =================
+
+    public List<SensorData> getAlerts(String level) {
+        return repository.findByAlertLevel(level);
     }
 }

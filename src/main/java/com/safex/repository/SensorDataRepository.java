@@ -12,4 +12,7 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
     List<SensorData> findByUserType(String userType);
 
     List<SensorData> findTop10ByWorkerIdOrderByTimestampDesc(String workerId);
+
+    // 🔥 ADD THIS LINE (IMPORTANT)
+    List<SensorData> findByAlertLevel(String alertLevel);
 }
