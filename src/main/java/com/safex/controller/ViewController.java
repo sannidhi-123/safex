@@ -6,14 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
+    // This will now be your ONLY way to access the site.
+    // When you go to http://localhost:8080/ the dashboard loads.
     @GetMapping("/")
     public String index() {
-        return "dashboard";
+        return "dashboard"; // Looks for dashboard.html in /templates
     }
 
-    @GetMapping("/analytics")
-    public String analytics() {
-        // Future-proofing for a second page
-        return "analytics";
-    }
+    // REMOVED: @GetMapping("/dashboard") to prevent the Ambiguous Mapping error.
 }

@@ -1,8 +1,8 @@
 package com.safex.mqtt;
-
+import com.safex.service.SensorDataService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safex.model.SensorData;
-import com.safex.service.SensorDataService;
+
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.stereotype.Component;
 

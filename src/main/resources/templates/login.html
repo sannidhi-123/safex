@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SafeX Login</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; margin: 0; }
+        .login-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #1a73e8; margin-bottom: 1.5rem; }
+        input { display: block; width: 100%; margin-bottom: 1rem; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        button:hover { background: #1557b0; }
+        .alert { padding: 10px; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; }
+        .signup-link { margin-top: 1rem; font-size: 0.9rem; color: #5f6368; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>SafeX Login</h2>
+
+        <div th:if="${param.success}" class="alert" style="background: #e6ffed; color: #28a745; border: 1px solid #28a745;">
+            Registration successful! Please login.
+        </div>
+        
+        <div th:if="${param.error}" class="alert" style="background: #ffeef0; color: #d73a49; border: 1px solid #d73a49;">
+            Invalid username or password.
+        </div>
+
+        <div th:if="${param.logout}" class="alert" style="background: #e8f0fe; color: #1a73e8; border: 1px solid #1a73e8;">
+            You have been logged out.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <input type="text" name="username" placeholder="Username" required autofocus>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a th:href="@{/signup}">Sign up here</a>
+        </div>
+    </div>
+</body>
+</html>

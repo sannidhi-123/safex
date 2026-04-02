@@ -4,11 +4,18 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Properties (IMPORTANT - hides passwords)
-*.properties
+# DO NOT IGNORE MAIN CONFIG
+# *.properties ❌ removed
+
+# Optional env configs
+application-local.properties
+application-prod.properties
 
 # Logs
 *.log
+
+# MQTT temp files
+paho*
 
 # OS files
 .DS_Store
