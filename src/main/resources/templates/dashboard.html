@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeX Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .goog-te-combo {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .goog-logo-link {
+            display: none !important;
+        }
+
+        .goog-te-gadget {
+            color: transparent !important;
+            margin-top: 2px;
+        }
+
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+
+        #goog-gt-tt {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved"></i> SafeX
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-title">Select Domain</div>
+                <a href="#" class="nav-item active" data-view="landing"><i class="fa-solid fa-house"></i> Dashboard
+                    Home</a>
+                <a href="#" class="nav-item" data-view="floor" data-domain="Industry"><i
+                        class="fa-solid fa-industry"></i> Industry</a>
+                <a href="#" class="nav-item" data-view="floor" data-domain="Healthcare"><i
+                        class="fa-solid fa-hospital"></i> Healthcare</a>
+                <a href="#" class="nav-item" data-view="individual" data-domain="Defense"><i
+                        class="fa-solid fa-jet-fighter"></i> Defense</a>
+                <a href="#" class="nav-item" data-view="individual" data-domain="Disaster Management"><i
+                        class="fa-solid fa-triangle-exclamation"></i> Disaster Management</a>
+                <a href="#" class="nav-item" data-view="individual" data-domain="Personal Use"><i
+                        class="fa-solid fa-user-shield"></i> Personal Use</a>
+                <div class="nav-title" style="margin-top:20px;">Store</div>
+                <a href="#" class="nav-item" data-view="shopping"><i class="fa-solid fa-cart-shopping"></i> Shop Devices</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <h1 id="pageTitle">SafeX </h1>
+                <div class="topbar-right">
+                    <div id="google_translate_element" style="margin-right: 15px; margin-top: 4px;"></div>
+                    <div class="notification-icon" id="notifButton">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge" id="notifBadge">0</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="User Avatar">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="notification-panel" id="notifPanel">
+                <h3>Notifications & Alerts</h3>
+                <div class="notif-list" id="notifList"></div>
+            </div>
+
+            <div class="views-container">
+                <!-- 1. Landing View -->
+                <div id="landingView" class="view active-view">
+                    <div class="welcome-banner">
+                        <h2>Welcome to SafeX </h2>
+                        <h3>Protecting lives before danger strikes</h3>
+
+                    </div>
+                    <div class="domain-cards">
+                        <div class="domain-card" data-view="floor" data-domain="Industry">
+                            <i class="fa-solid fa-industry fa-3x"></i>
+                            <h3>Industry</h3>
+                            <p>Floor-based gas and temp monitoring.</p>
+                        </div>
+                        <div class="domain-card" data-view="floor" data-domain="Healthcare">
+                            <i class="fa-solid fa-hospital fa-3x"></i>
+                            <h3>Healthcare</h3>
+                            <p>Hospital ward environmental safety.</p>
+                        </div>
+                        <div class="domain-card" data-view="individual" data-domain="Defense">
+                            <i class="fa-solid fa-jet-fighter fa-3x"></i>
+                            <h3>Defense</h3>
+                            <p>Troop vital signs and GPS tracking.</p>
+                        </div>
+                        <div class="domain-card" data-view="individual" data-domain="Disaster Management">
+                            <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
+                            <h3>Disaster Management</h3>
+                            <p>Rescue worker monitoring in hazard zones.</p>
+                        </div>
+                        <div class="domain-card" data-view="individual" data-domain="Personal Use">
+                            <i class="fa-solid fa-user-shield fa-3x"></i>
+                            <h3>Personal Use</h3>
+                            <p>Personal safety and vital tracking.</p>
+                        </div>
+                        <div class="domain-card" data-view="shopping" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border: none;">
+                            <i class="fa-solid fa-cart-shopping fa-3x" style="color: white;"></i>
+                            <h3 style="color: white;">Store</h3>
+                            <p style="color: rgba(255,255,255,0.9);">Order SafeX wearable devices.</p>
+                        </div>
+                    </div>
+
+                    <div class="card map-card mt-4">
+                        <h3><i class="fa-solid fa-fire-flame-curved text-danger"></i> Global Hazard Heatmap</h3>
+                        <p class="text-muted mb-4">Live gas exposure concentration across all active regions.</p>
+                        <div id="globalHeatmap" class="map-container"></div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <h3><i class="fa-solid fa-wind" style="color: #0ea5e9;"></i> Karnataka Air Quality Index</h3>
+                        <p class="text-muted mb-4">Real-time AQI tracking for major cities across the state.</p>
+                        <div class="aqi-grid" id="aqiContainer"></div>
+
+                        <div id="cityAqiDetails"
+                            style="display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
+                            <div class="flex-between mb-3">
+                                <h4 id="cityAqiTitle"><i class="fa-solid fa-map-pin text-primary"></i> AQI Details</h4>
+                                <button id="closeCityAqiBtn" class="btn text-muted"
+                                    style="border:none; background:none; cursor:pointer;" title="Close Details"><i
+                                        class="fa-solid fa-xmark fa-lg"></i></button>
+                            </div>
+                            <div class="aqi-grid" id="cityAqiContainer"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Floor View -->
+                <div id="floorView" class="view">
+                    <div class="dashboard-header mb-4">
+                        <h2 id="floorDomainTitle">Industry Monitoring</h2>
+                        <p class="text-muted">Real-time facility status across multiple floors.</p>
+                    </div>
+
+                    <div class="floors-container" id="floorsList"></div>
+
+                    <!-- Floor Workers Tracking Panel -->
+                    <div class="card mt-4" id="floorWorkersCard" style="display: none;">
+                        <div class="flex-between mb-3 border-bottom pb-2"
+                            style="border-bottom: 1px solid var(--border);">
+                            <h3 id="floorWorkersTitle" class="m-0"><i class="fa-solid fa-user-group text-primary"></i>
+                                Personnel Active on Floor 1</h3>
+                            <button id="closeFloorWorkersBtn" class="btn text-muted"
+                                style="border:none; background:none; cursor:pointer;" title="Close Details"><i
+                                    class="fa-solid fa-xmark fa-lg"></i></button>
+                        </div>
+                        <div class="users-list" id="floorWorkersList"
+                            style="max-height: 300px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="grid-layout mt-4">
+                        <div class="card chart-card">
+                            <h3><i class="fa-solid fa-cloud-arrow-up"></i> Gas Levels Over Time</h3>
+                            <div class="chart-container" style="position: relative; height:300px; width:100%">
+                                <canvas id="gasChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card chart-card">
+                            <h3><i class="fa-solid fa-temperature-half"></i> Temperature Trends</h3>
+                            <div class="chart-container" style="position: relative; height:300px; width:100%">
+                                <canvas id="tempChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card map-card mt-4">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Facility Map & Sensor Locations</h3>
+                        <div id="floorMap" class="map-container"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Individual View -->
+                <div id="individualView" class="view">
+                    <div class="dashboard-header mb-4 flex-between">
+                        <div>
+                            <h2 id="indivDomainTitle">Defense Monitoring</h2>
+                            <p class="text-muted">Live tracking and vital metrics for field deployed units.</p>
+                        </div>
+                        <div class="alert-summary">
+                            <span class="badge badge-danger" id="sosAlerts">0 SOS</span>
+                            <span class="badge badge-warning" id="hazardAlerts">0 Hazard</span>
+                        </div>
+                    </div>
+
+                    <div class="main-grid">
+                        <div class="card users-list-card">
+                            <h3><i class="fa-solid fa-users"></i> Active Personnel</h3>
+                            <div class="users-list" id="usersList"></div>
+                        </div>
+
+                        <div class="right-panel">
+                            <div class="card details-card mb-4" id="userDetailsCard" style="display: none;">
+                                <h3 id="selectedUserName">User Details</h3>
+                                <div class="user-stats-grid">
+                                    <div class="stat-box">
+                                        <i class="fa-solid fa-heart-pulse text-danger"></i>
+                                        <h4 id="detHr">-- bpm</h4>
+                                        <p>Heart Rate</p>
+                                    </div>
+                                    <div class="stat-box">
+                                        <i class="fa-solid fa-cloud text-warning"></i>
+                                        <h4 id="detGas">-- ppm</h4>
+                                        <p>Gas Exposure</p>
+                                    </div>
+                                    <div class="stat-box">
+                                        <i class="fa-solid fa-temperature-half text-primary"></i>
+                                        <h4 id="detTemp">-- &deg;C</h4>
+                                        <p>Body Temp</p>
+                                    </div>
+                                    <div class="stat-box">
+                                        <i class="fa-solid fa-brain text-success" id="detAiIcon"></i>
+                                        <h4 id="detAi">Safe</h4>
+                                        <p>AI Prediction</p>
+                                    </div>
+                                    <div class="stat-box">
+                                        <i class="fa-solid fa-person" id="detPostureIcon"></i>
+                                        <h4 id="detPosture">--</h4>
+                                        <p>Posture</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card indiv-map-card">
+                                <h3><i class="fa-solid fa-satellite-dish"></i> Live GPS Tracking</h3>
+                                <div id="indivMap" class="map-container"></div>
+                            </div>
+
+                            <div class="card emergency-contact-card mt-4" id="emergencyContactCard"
+                                style="display: none;">
+                                <h3><i class="fa-solid fa-address-book text-primary"></i> Emergency Contacts</h3>
+                                <p class="text-muted mb-3" style="font-size: 14px;">Auto-alert triggers if you are
+                                    Unconscious or Fallen.</p>
+                                <div class="contact-grid"
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+                                    <div class="contact-item p-2 border rounded" style="background: var(--background);">
+                                        <strong><i class="fa-solid fa-user text-muted"></i> Father</strong><br><span
+                                            class="text-muted" style="font-size:12px;">987-654-3210</span>
+                                    </div>
+                                    <div class="contact-item p-2 border rounded" style="background: var(--background);">
+                                        <strong><i class="fa-solid fa-user text-muted"></i> Mother</strong><br><span
+                                            class="text-muted" style="font-size:12px;">987-654-3211</span>
+                                    </div>
+                                    <div class="contact-item p-2 border rounded" style="background: var(--background);">
+                                        <strong><i class="fa-solid fa-user text-muted"></i> Spouse</strong><br><span
+                                            class="text-muted" style="font-size:12px;">987-654-3212</span>
+                                    </div>
+                                    <div class="contact-item p-2 border rounded" style="background: var(--background);">
+                                        <strong><i class="fa-solid fa-building-shield text-muted"></i> Local
+                                            Police</strong><br><span class="text-muted" style="font-size:12px;">911 /
+                                            100</span>
+                                    </div>
+                                </div>
+                                <div id="emergencyAlertStatus" class="mt-3 p-3 rounded"
+                                    style="display: none; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger);">
+                                    <h4 class="text-danger m-0" style="margin-bottom:4px;"><i
+                                            class="fa-solid fa-bell"></i> Emergency Alert Dispatched!</h4>
+                                    <p class="text-muted m-0" style="font-size: 12px;">Contacts and nearby authorities
+                                        have been notified of your location.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Shopping View -->
+                <div id="shoppingView" class="view">
+                    <div class="dashboard-header mb-4">
+                        <h2>SafeX Store</h2>
+                        <p class="text-muted">Order SafeX wearable devices and accessories.</p>
+                    </div>
+                    <div class="domain-cards" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div class="card" style="text-align: center; width: 300px;">
+                            <div style="height: 200px; background: #111827; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid #334155;">
+                                <i class="fa-solid fa-stopwatch fa-5x" style="color: #cbd5e1;"></i>
+                            </div>
+                            <h3>SafeX Watch - Midnight Black</h3>
+                            <p class="text-muted mb-4" style="font-size: 14px;">Advanced vital monitoring smartwatch with carbon fiber finish.</p>
+                            <h2 class="text-primary mb-4">$199.99</h2>
+                            <button class="btn" onclick="alert('Midnight Black Watch added to cart!')" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600; font-size: 16px;"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                        <div class="card" style="text-align: center; width: 300px;">
+                            <div style="height: 200px; background: #fff7ed; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid #fdba74;">
+                                <i class="fa-solid fa-stopwatch fa-5x" style="color: #f97316;"></i>
+                            </div>
+                            <h3>SafeX Watch - Sport Orange</h3>
+                            <p class="text-muted mb-4" style="font-size: 14px;">Rugged high-visibility smartwatch for industrial and disaster zones.</p>
+                            <h2 class="text-primary mb-4">$189.99</h2>
+                            <button class="btn" onclick="alert('Sport Orange Watch added to cart!')" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600; font-size: 16px;"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                        <div class="card" style="text-align: center; width: 300px;">
+                            <div style="height: 200px; background: #f8fafc; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid #e2e8f0;">
+                                <i class="fa-solid fa-stopwatch fa-5x" style="color: #94a3b8;"></i>
+                            </div>
+                            <h3>SafeX Watch - Titanium Silver</h3>
+                            <p class="text-muted mb-4" style="font-size: 14px;">Elegant aerospace-grade titanium finish for everyday safety.</p>
+                            <h2 class="text-primary mb-4">$229.99</h2>
+                            <button class="btn" onclick="alert('Titanium Silver Watch added to cart!')" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600; font-size: 16px;"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,kn',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>
