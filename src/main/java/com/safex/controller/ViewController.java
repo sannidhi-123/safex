@@ -7,7 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewController {
 
     @GetMapping("/")
-    public String home() {
+    public String index() {
         return "dashboard";
+    }
+
+    @GetMapping("/analytics")
+    public String analytics() {
+        // Future-proofing for a second page
+        return "analytics";
     }
 }
