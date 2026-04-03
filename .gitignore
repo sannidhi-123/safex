@@ -1,11 +1,15 @@
+# --- SafeX / SecureXion GitIgnore ---
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# DO NOT IGNORE MAIN CONFIG
-# *.properties ❌ removed
+# MQTT & Paho Temp Files (Ensures no Paho files/folders are pushed)
+paho*
+**/paho*
+*.lck
 
 # Optional env configs
 application-local.properties
@@ -13,9 +17,6 @@ application-prod.properties
 
 # Logs
 *.log
-
-# MQTT temp files
-paho*
 
 # OS files
 .DS_Store
